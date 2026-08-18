@@ -88,40 +88,6 @@ resource "azurerm_network_interface_security_group_association" "demo" {
   network_interface_id      = azurerm_network_interface.demo.id
   network_security_group_id = azurerm_network_security_group.demo.id
 }
-
-# Azure Linux VM
-resource "azurerm_linux_virtual_machine" "foo" {
-  name                = "TF-Instance"
-  resource_group_name = azurerm_resource_group.demo.name
-  location            = azurerm_resource_group.demo.location
-  size                = "Standard_B1s"
-  admin_username      = "azureuser"
-
-  admin_password = "Azure@123456789!"
-  disable_password_authentication = false
-
-  network_interface_ids = [
-    azurerm_network_interface.demo.id
-  ]
-
-  os_disk {
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
-  }
-
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts-gen2"
-    version   = "latest"
-  }
-
-  tags = {
-    Name        = "TF-Instance"
-    Environment = "Dev"
-  }
-}
-
 # Azure Storage Account
 resource "azurerm_storage_account" "demo" {
   name                     = "tfdemo2026storage12345"
